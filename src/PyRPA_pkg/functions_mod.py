@@ -282,6 +282,7 @@ class RPA_keyboard:
         """
         inputval = sheetName.row(rowIndex)[1].value
         pyautogui.press(inputval)
+        print('<按键>\t\t\t=============>\t', inputval)
 
     # 9.<热键组合>
     @staticmethod
@@ -295,6 +296,7 @@ class RPA_keyboard:
         inputVal = sheetName.row(rowIndex)[1].value
         key_list = inputVal.split('+')
         pyautogui.hotkey(key_list)
+        print('<热键组合>\t\t=============>\t', key_list)
 
     # 10.<键盘输入TXT内容>
     @staticmethod
