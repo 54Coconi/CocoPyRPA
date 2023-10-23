@@ -79,7 +79,7 @@ if __name__ == '__main__':
             # 弹窗提示
             pyautogui.alert('🎉恭喜任务执行完毕🎉\n单击确定退出!')
         elif key == '2':
-            n = input('循环次数n = ')
+            n = int(input('循环次数n = '))
             while n > 0:
                 mainWork(sheet1)
                 fm.time.sleep(0.1)
