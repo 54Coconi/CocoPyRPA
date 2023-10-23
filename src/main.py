@@ -111,8 +111,6 @@ if __name__ == '__main__':
             print('<<=============任务执行成功=============>>')
             # 弹窗提示
             pyautogui.alert(text='🎉恭喜任务执行完毕🎉', title='CocoPyRPA--提示', button='退出')
-
-
     else:
         # 弹窗警告❌
         pyautogui.alert(text='\n\n❌数据检查失败❌', title='CocoPyRPA--退出', button='退出')
