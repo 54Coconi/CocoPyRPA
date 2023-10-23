@@ -24,7 +24,6 @@
 #--------------+------------------------------------------
 """
 import pyautogui
-
 import PyRPA_pkg.utils_mod as um
 
 __name__ = '指令功能检查模块'
