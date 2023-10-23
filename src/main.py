@@ -13,6 +13,7 @@ import ver_desc
 
 res = simpledialog.askstring('任务执行目录', prompt='请输入任务目录的绝对路径', initialvalue='任务目录绝对路径')
 if res is not None:
+    print()
     print(res)
 
 # tk.mainloop()

@@ -24,9 +24,25 @@
 #--------------+------------------------------------------
 """
 import pyautogui
+
 import PyRPA_pkg.utils_mod as um
 
 __name__ = '指令功能检查模块'
+
+
+def __mouse_move_range_check(x, y, check_cmd):
+    """
+    鼠标（相对或绝对）移动的坐标范围检查
+    :param x: x坐标
+    :param y: y坐标
+    :param check_cmd: 指令检查参数
+    :return: check_cmd -- 取反
+    """
+    width = pyautogui.size().width
+    height = pyautogui.size().height
+    if abs(x) > width or abs(y) > height:
+        check_cmd = not check_cmd
+    return check_cmd
 
 
 def data_check(sheetName):
@@ -44,7 +60,7 @@ def data_check(sheetName):
     # 每行数据检查（i表示行数）
     i = 1
     while i < sheetName.nrows:
-        # 【第1列 操作指令类型检查】=========================
+        # 【第1列 操作指令类型检查】==============================================================
         cmdType = sheetName.row(i)[0]
         if cmdType.ctype != 1 or (
                 cmdType.value != '单击左键' and cmdType.value != '双击左键' and cmdType.value != '单击右键'
@@ -54,7 +70,7 @@ def data_check(sheetName):
             print('第', i + 1, '行,第1列数据有误,可能输入了错误的或不能识别的操作指令！\n')
             check_cmd = False
 
-        # 【第2列 操作指令内容检查】=================================
+        # 【第2列 操作指令内容检查】==============================================================
         cmdValue = sheetName.row(i)[1]
 
         # 读图点击类型指令，内容必须为字符串类型
@@ -83,36 +99,34 @@ def data_check(sheetName):
                 print('第', i + 1, '行,第2列数据有误,应为数字类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
-        # 鼠标相对当前坐标的移动事件，形式必须为形如'num1=num2'的字符串且x,y取值在屏幕分辨率范围内
+        # 鼠标相对当前坐标的移动事件，形式必须为形如'(x|y)'的字符串且x,y取值在屏幕分辨率范围内
         if cmdType.value == '鼠标相对移动':
-            xy_list = cmdValue.value.split('=')
-            # 将str字符串转为int整型（防止有小数点'.'先转为float浮点型再转int）
-            x = int(float(xy_list[0]))
-            y = int(float(xy_list[1]))
-            width = pyautogui.size().width
-            height = pyautogui.size().height
-            if abs(x) > width or abs(y) > height:
-                print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
-                check_cmd = False
+            # 检查格式
+            isRestr = um.MyRegexMatch('\(-?\d+|-?\d+\)', cmdValue.value)
+            if isRestr is False:
+                print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
+            else:
+                # 将str字符串转为int整型（防止有小数点'.'先转为float浮点型再转int）
+                xy_list = cmdValue.value.split('|')
+                x = int(float(xy_list[0].split('(')[1]))
+                y = int(float(xy_list[1].split(')')[0]))
+                check_cmd = __mouse_move_range_check(x, y, check_cmd)
+                if not check_cmd:
+                    print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
 
         # 鼠标移动到绝对坐标事件，形式必须为形如'(x,y)'的字符串且x,y取值在屏幕分辨率范围内
         if cmdType.value == '鼠标定点移动':
-            isRestr = um.MyRegexMatch('\(-?\d+,-?\d+\)', cmdValue.value)
             # 检查格式
+            isRestr = um.MyRegexMatch('\(-?\d+,-?\d+\)', cmdValue.value)
             if isRestr is False:
                 print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
             else:
                 xy_list = cmdValue.value.split(',')
                 x = int(float(xy_list[0].split('(')[1]))
                 y = int(float(xy_list[1].split(')')[0]))
-                # print(xy_list)
-                # print('x=' + '%d' % x, end=' ')
-                # print('y=' + '%d' % y)
-                width = pyautogui.size().width
-                height = pyautogui.size().height
-                if abs(x) > width or abs(y) > height:
+                check_cmd = __mouse_move_range_check(x, y, check_cmd)
+                if not check_cmd:
                     print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
-                    check_cmd = False
 
         # 【第4列，操作指令是否执行（只能为空或者数字0）
         isRun_cmd = sheetName.row(i)[3]
