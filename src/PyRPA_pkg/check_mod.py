@@ -39,7 +39,7 @@ def data_check(sheetName):
     check_cmd = True
     # 行数检查
     if sheetName.nrows < 2:
-        print("表格没有指令数据！")
+        print('表格没有指令数据！')
         check_cmd = False
         return check_cmd
     # 每行数据检查（i表示行数）
@@ -52,7 +52,7 @@ def data_check(sheetName):
                 and cmdType.value != '输入' and cmdType.value != '等待' and cmdType.value != '滚轮'
                 and cmdType.value != '鼠标相对移动' and cmdType.value != '按键' and cmdType.value != '键盘输入TXT内容'
                 and cmdType.value != '鼠标定点移动' and cmdType.value != '热键组合'):
-            print('第', i + 1, "行,第1列数据有误,可能输入了错误的或不能识别的操作指令！\n")
+            print('第', i + 1, '行,第1列数据有误,可能输入了错误的或不能识别的操作指令！\n')
             check_cmd = False
 
         # 【第2列 操作指令内容检查】=================================
@@ -63,37 +63,37 @@ def data_check(sheetName):
                 cmdType.value == '双击左键' or
                 cmdType.value == '单击右键'):
             if cmdValue.ctype != 1:
-                print('第', i + 1, "行,第2列数据有误,应为字符串类型,实际却为：", cmdValue.value)
+                print('第', i + 1, '行,第2列数据有误,应为字符串类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
         # 输入类型，内容不能为空
         if cmdType.value == '输入':
             if cmdValue.ctype == 0:
-                print('第', i + 1, "行,第2列数据有误,输入内容不能为空")
+                print('第', i + 1, '行,第2列数据有误,输入内容不能为空！')
                 check_cmd = False
 
         # 等待类型，内容必须为数字
         if cmdType.value == '等待':
             if cmdValue.ctype != 2:
-                print('第', i + 1, "行,第2列数据有误,应为数字类型")
+                print('第', i + 1, '行,第2列数据有误,应为数字类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
         # 滚轮事件，内容必须为数字
         if cmdType.value == '滚轮':
             if cmdValue.ctype != 2:
-                print('第', i + 1, "行,第2列数据有误,应为数字类型")
+                print('第', i + 1, '行,第2列数据有误,应为数字类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
         # 鼠标相对当前坐标的移动事件，形式必须为形如'num1=num2'的字符串且x,y取值在屏幕分辨率范围内
         if cmdType.value == '鼠标相对移动':
-            xy_list = cmdValue.value.split("=")
+            xy_list = cmdValue.value.split('=')
             # 将str字符串转为int整型（防止有小数点'.'先转为float浮点型再转int）
             x = int(float(xy_list[0]))
             y = int(float(xy_list[1]))
             width = pyautogui.size().width
             height = pyautogui.size().height
             if abs(x) > width or abs(y) > height:
-                print('第', i + 1, "行,第2列数据有误,鼠标移动距离超出范围")
+                print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
                 check_cmd = False
 
         # 鼠标移动到绝对坐标事件，形式必须为形如'(x,y)'的字符串且x,y取值在屏幕分辨率范围内
@@ -103,16 +103,16 @@ def data_check(sheetName):
             if isRestr is False:
                 print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
             else:
-                xy_list = cmdValue.value.split(",")
-                x = int(float(xy_list[0].split("(")[1]))
-                y = int(float(xy_list[1].split(")")[0]))
-                print(xy_list)
-                print('x=' + '%d' % x, end=' ')
-                print('y=' + '%d' % y)
+                xy_list = cmdValue.value.split(',')
+                x = int(float(xy_list[0].split('(')[1]))
+                y = int(float(xy_list[1].split(')')[0]))
+                # print(xy_list)
+                # print('x=' + '%d' % x, end=' ')
+                # print('y=' + '%d' % y)
                 width = pyautogui.size().width
                 height = pyautogui.size().height
                 if abs(x) > width or abs(y) > height:
-                    print('第', i + 1, "行,第2列数据有误,鼠标移动距离超出范围")
+                    print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
                     check_cmd = False
 
         # 【第4列，操作指令是否执行（只能为空或者数字0）

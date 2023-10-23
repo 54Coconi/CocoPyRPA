@@ -20,6 +20,7 @@
 11.<等待>
 """
 import time
+
 import pyautogui
 
 """ 
@@ -130,7 +131,7 @@ def mouseClick(clickTimes, lOrR, img, reTry):
             if location is not None:
                 pyautogui.click(location.x, location.y, clicks=clickTimes, interval=0.2, duration=0.2, button=lOrR)
                 break
-            print("未找到匹配图片,0.1秒后重试")
+            print('未找到匹配图片,0.1秒后重试')
             time.sleep(0.1)
     elif reTry == -1:
         while True:
@@ -144,18 +145,18 @@ def mouseClick(clickTimes, lOrR, img, reTry):
             location = pyautogui.locateCenterOnScreen(img, confidence=0.9)
             if location is not None:
                 pyautogui.click(location.x, location.y, clicks=clickTimes, interval=0.2, duration=0.2, button=lOrR)
-                print("点击第", i, "次")
+                print('点击第', i, '次')
                 i += 1
             time.sleep(0.1)
 
 
 class RPA_mouse:
     """
-    鼠标类指令
+    鼠标指令类
     """
 
     def __init__(self):
-        print("This is RPA_mouse class.")
+        print('This is RPA_mouse class.')
 
     # 1.<单击左键> 和 2.<双击左键>
     @staticmethod
@@ -174,11 +175,11 @@ class RPA_mouse:
         if sheetName.row(rowIndex)[2].ctype == 2 and sheetName.row(rowIndex)[2].value != 0:
             # 取重试次数
             reTry = sheetName.row(rowIndex)[2].value
-        mouseClick(clickTimes, "left", imgName, reTry)
+        mouseClick(clickTimes, 'left', imgName, reTry)
         if clickTimes == 1:
-            print("<单击左键>\t=============>\t", imgName)
+            print('<单击左键>\t=============>\t', imgName)
         elif clickTimes == 2:
-            print("<双击左键>\t=============>\t", imgName)
+            print('<双击左键>\t=============>\t', imgName)
 
     # 3.<单击右键>
     @staticmethod
@@ -197,8 +198,8 @@ class RPA_mouse:
         if sheetName.row(rowIndex)[2].ctype == 2 and sheetName.row(rowIndex)[2].value != 0:
             # 取重试次数
             reTry = sheetName.row(rowIndex)[2].value
-        mouseClick(clickTimes, "right", imgName, reTry)
-        print("<单击右键>\t=============>\t", imgName)
+        mouseClick(clickTimes, 'right', imgName, reTry)
+        print('<单击右键>\t=============>\t', imgName)
 
     # 4.<滚轮>
     @staticmethod
@@ -211,7 +212,11 @@ class RPA_mouse:
         # 取单元格中要移动的距离值
         scroll = sheetName.row(rowIndex)[1].value
         pyautogui.scroll(int(scroll))
-        print("滚轮滑动了\t=============>\t", int(scroll), "距离")
+        print('<滚轮>\t=============>\t',
+              '向下滑动了' if int(scroll) < 0 else
+              '向上滑动了' if int(scroll) > 0 else
+              '滑动了', abs(int(scroll))
+              , '距离')
 
     # 5.<鼠标定点移动>
     @staticmethod
@@ -227,11 +232,11 @@ class RPA_mouse:
 
 class RPA_keyboard:
     """
-    按键类指令
+    按键指令类
     """
 
     def __init__(self):
-        print("This is RPA_keyboard class.")
+        print('This is RPA_keyboard class.')
 
     # 7.<输入>
 
@@ -243,6 +248,10 @@ class RPA_keyboard:
 
 
 # @控制类
-class RPA_control():
+class RPA_control:
+    """
+    系统控制类
+    """
+
     def __init__(self):
-        print("This is RPA_control class.")
+        print('This is RPA_control class.')
