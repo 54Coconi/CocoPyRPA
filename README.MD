@@ -24,7 +24,7 @@
       |--模板_v1.1.0.py
       |--模板_v1.1.0指令测试.xls
   |--PyRPA_pkg/
-      |--__pycache__
+      |--__pycache__/
       |--__init__.py
       |--check_mod.py
       |--functions_mod.py
@@ -42,7 +42,12 @@
 
 ## 3. 使用示例：
 
-提供示例代码或指南，以展示如何使用你的项目。如果有必要，提供详细的用例示例。
+> 参考：
+>
+> 1. [Python自动操作GUI神器PyAutoGUI - 知乎](https://zhuanlan.zhihu.com/p/302592540)
+> 2. [pyautogui 官方 github 源码](https://github.com/asweigart/pyautogui)
+> 3. [pyautogui 官方 github 中文文档](https://github.com/asweigart/pyautogui/blob/master/docs/simplified-chinese.ipynb)
+> 4. [pyautogui 官网说明文档（英文）](https://pyautogui.readthedocs.io/en/latest/index.html)
 
 ## 4. 配置选项：
 

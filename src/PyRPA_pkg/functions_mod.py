@@ -22,6 +22,7 @@
 import time
 
 import pyautogui
+import pyperclip
 
 """ 
 ====================================
@@ -167,7 +168,7 @@ class RPA_mouse:
         :param rowIndex: 行标
         :param clickTimes: 点击次数
         """
-        # 取图片名称
+        # 取图片名称(路径)
         imgName = sheetName.row(rowIndex)[1].value
         # 设置默认执行次数为1
         reTry = 1
@@ -212,11 +213,10 @@ class RPA_mouse:
         # 取单元格中要移动的距离值
         scroll = sheetName.row(rowIndex)[1].value
         pyautogui.scroll(int(scroll))
-        print('<滚轮>\t=============>\t',
+        print('<滚轮>\t\t\t=============>\t',
               '向下滑动了' if int(scroll) < 0 else
               '向上滑动了' if int(scroll) > 0 else
-              '滑动了', abs(int(scroll))
-              , '距离')
+              '滑动了', abs(int(scroll)), '距离')
 
     # 5.<鼠标定点移动>
     @staticmethod
@@ -226,8 +226,28 @@ class RPA_mouse:
         :param sheetName: 表名
         :param rowIndex: 行标
         """
+        xy_list = sheetName.row(rowIndex)[1].value.split(',')
+        x = int(float(xy_list[0].split('(')[1]))
+        y = int(float(xy_list[1].split(')')[0]))
+        pyautogui.moveTo(x, y, 0.5)
+        print('<鼠标定点移动>\t=============>\t', 'x=', x, 'y=', y)
 
     # 6.<鼠标相对移动>
+    @staticmethod
+    def clickRelMove(sheetName, rowIndex):
+        """
+        鼠标相对当前坐标移动
+        :param sheetName: 表名
+        :param rowIndex: 行标
+        """
+        xy_list = sheetName.row(rowIndex)[1].value.split('|')
+        x = int(float(xy_list[0].split('(')[1]))
+        y = int(float(xy_list[1].split(')')[0]))
+        pyautogui.move(x, y, 0.5)
+        print("<鼠标相对移动>\t=============>\t",
+              "x右移" if x > 0 else "x左移" if x < 0 else "x移动", abs(x),
+              '，', "y下移" if y > 0 else "y上移" if y < 0 else "y移动",
+              abs(y))
 
 
 class RPA_keyboard:
@@ -239,12 +259,56 @@ class RPA_keyboard:
         print('This is RPA_keyboard class.')
 
     # 7.<输入>
+    @staticmethod
+    def pasteboardInput(sheetName, rowIndex):
+        """
+        复制表格单元格里的内容到粘贴板，并粘贴输入内容
+        """
+        # 取单元格中要输入的内容
+        inputVal = sheetName.row(rowIndex)[1].value
+        # 复制单元格内容到粘贴板
+        pyperclip.copy(inputVal)
+        # 粘贴内容
+        pyautogui.hotkey('ctrl', 'v')
+        time.sleep(0.5)
+        print("剪贴板<输入>\t=============>\t", inputVal)
 
     # 8.<按键>
+    @staticmethod
+    def keystroke(sheetName, rowIndex):
+        """
+        获取表格单元格内容，并根据内容模拟键盘击键
+        执行键盘按键按下，然后松开。
+        """
+        inputval = sheetName.row(rowIndex)[1].value
+        pyautogui.press(inputval)
 
     # 9.<热键组合>
+    @staticmethod
+    def hotkeyCombi(sheetName, rowIndex):
+        """
+        获取表格单元格的内容（形如 'key1+key2+key3+...'）并将其分割得到一个列表
+        key_list['key1','key2',...] 并将整个 list 传入 hotkey() 函数中。
+        对按顺序传递的参数执行按键按下，然后按相反顺序执行按键释放。
+        其效果是调用热键（“ctrl”，“shift”，“c”）将执行 “Ctrl-Shift-C” 热键键盘快捷键。
+        """
+        inputVal = sheetName.row(rowIndex)[1].value
+        key_list = inputVal.split('+')
+        pyautogui.hotkey(key_list)
 
     # 10.<键盘输入TXT内容>
+    @staticmethod
+    def EnterTxtOnKeyboard(sheetName, rowIndex):
+        """
+        键盘输入TXT内容(由于是模拟键盘的按键按下和释放，所以不支持中文)
+        从表格单元格获取 txt 文件路径，找到文件并打开得到内容，然后对内容中的每个字符执行键盘按键按下，然后释放
+        """
+        inputVal = sheetName.row(rowIndex)[1].value
+        filepath = inputVal
+        with open(filepath, 'r', encoding='UTF-8') as file:  # ‘r’只读文件
+            message = file.read()
+        pyautogui.typewrite(message, interval=0.025)  # interval 指输入间隔秒
+        print("<键盘输入TXT内容>\t=============>\t", message)
 
 
 # @控制类
@@ -255,3 +319,13 @@ class RPA_control:
 
     def __init__(self):
         print('This is RPA_control class.')
+
+    # 11.<等待>
+    @staticmethod
+    def waitTime(sheetName, rowIndex):
+        """
+        从表格单元格获取延时时长
+        """
+        wait_time = sheetName.row(rowIndex)[1].value
+        time.sleep(wait_time)
+        print('<等待>\t\t\t=============>\t', wait_time, '秒')
