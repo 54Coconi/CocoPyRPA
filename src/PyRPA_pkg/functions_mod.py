@@ -229,7 +229,7 @@ class RPA_mouse:
         xy_list = sheetName.row(rowIndex)[1].value.split(',')
         x = int(float(xy_list[0].split('(')[1]))
         y = int(float(xy_list[1].split(')')[0]))
-        pyautogui.moveTo(x, y, 0.5)
+        pyautogui.moveTo(x, y, 0.1)
         print('<鼠标定点移动>\t=============>\t', 'x=', x, 'y=', y)
 
     # 6.<鼠标相对移动>

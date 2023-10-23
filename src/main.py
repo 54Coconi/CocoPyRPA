@@ -77,9 +77,9 @@ def mainWork(sheetName):
 
 if __name__ == '__main__':
     # 文件名
-    filename1 = 'D:\\桌面自动化python程序\\PyRPA桌面自动化程序\\execute\\test\\PyRPA_v2.0.0指令测试.xls'
-    filename = pyautogui.prompt(text='请输入表格的绝对路径', title='表格路径',
-                                default='形如 D:\\' + '\\aa\\' + '\\bb.xls')
+    filename1 = 'D:/桌面自动化python程序/PyRPA桌面自动化程序/execute/test/PyRPA_v2.0.0指令测试.xls'
+    filename = pyautogui.prompt(text='请输入表格的绝对路径', title='CocoPyRPA--表格路径',
+                                default='形如 D:/aa/bb.xls')
     if filename is None:
         print('<<=============任务被取消=============>>')
         sys.exit(0)  # 程序终止
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     # 数据检查
     checkCmd = cm.data_check(sheet1)
     if checkCmd:
-        pyautogui.alert(text='\n\n数据检查成功', title='提示', button='继续')
+        pyautogui.alert(text='\n\n数据检查成功', title='CocoPyRPA--提示', button='继续')
         key = pyautogui.confirm(text='\n\n请选择功能:\n输入1只做一次,输入2循环n次', title='CocoPyRPA--功能选择',
                                 buttons=['1', '2'])
         if key == '1':
