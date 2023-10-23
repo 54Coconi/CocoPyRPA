@@ -23,6 +23,7 @@
 #              |   error:5
 #--------------+------------------------------------------
 """
+
 import pyautogui
 
 import PyRPA_pkg.utils_mod as um
