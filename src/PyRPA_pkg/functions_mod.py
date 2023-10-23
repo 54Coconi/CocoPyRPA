@@ -20,7 +20,6 @@
 11.<等待>
 """
 import time
-
 import pyautogui
 
 """ 
