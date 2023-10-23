@@ -178,9 +178,9 @@ class RPA_mouse:
             reTry = sheetName.row(rowIndex)[2].value
         mouseClick(clickTimes, 'left', imgName, reTry)
         if clickTimes == 1:
-            print('<单击左键>\t=============>\t', imgName)
+            print('<单击左键>\t\t=============>\t', imgName)
         elif clickTimes == 2:
-            print('<双击左键>\t=============>\t', imgName)
+            print('<双击左键>\t\t=============>\t', imgName)
 
     # 3.<单击右键>
     @staticmethod
@@ -200,7 +200,7 @@ class RPA_mouse:
             # 取重试次数
             reTry = sheetName.row(rowIndex)[2].value
         mouseClick(clickTimes, 'right', imgName, reTry)
-        print('<单击右键>\t=============>\t', imgName)
+        print('<单击右键>\t\t=============>\t', imgName)
 
     # 4.<滚轮>
     @staticmethod
