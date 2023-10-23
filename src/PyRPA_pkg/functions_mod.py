@@ -271,7 +271,7 @@ class RPA_keyboard:
         # 粘贴内容
         pyautogui.hotkey('ctrl', 'v')
         time.sleep(0.5)
-        print("剪贴板<输入>\t=============>\t", inputVal)
+        print("剪贴板<输入>\t\t=============>\t", inputVal)
 
     # 8.<按键>
     @staticmethod
@@ -327,5 +327,5 @@ class RPA_control:
         从表格单元格获取延时时长
         """
         wait_time = sheetName.row(rowIndex)[1].value
-        time.sleep(wait_time)
         print('<等待>\t\t\t=============>\t', wait_time, '秒')
+        time.sleep(wait_time)

@@ -92,7 +92,7 @@ if __name__ == '__main__':
     checkCmd = cm.data_check(sheet1)
     if checkCmd:
         pyautogui.alert(text='\n\n数据检查成功', title='提示', button='继续')
-        key = pyautogui.confirm(text='\n\n请选择功能:\n输入1只做一次,输入2循环n次', title='功能选择',
+        key = pyautogui.confirm(text='\n\n请选择功能:\n输入1只做一次,输入2循环n次', title='CocoPyRPA--功能选择',
                                 buttons=['1', '2'])
         if key == '1':
             # 循环拿出每一行指令
@@ -101,19 +101,18 @@ if __name__ == '__main__':
             # 弹窗提示
             pyautogui.alert('🎉恭喜任务执行完毕🎉\n单击确定退出!')
         elif key == '2':
-            n = pyautogui.prompt(text='请输入循环次数', title='循环次数', default='10')
+            n = pyautogui.prompt(text='请输入循环次数', title='CocoPyRPA--循环次数', default='10')
             n = int(n)
             while n > 0:
                 mainWork(sheet1)
-                fm.time.sleep(0.1)
                 print("等待0.1秒")
+                fm.time.sleep(0.1)
                 n -= 1
             print('<<=============任务执行成功=============>>')
             # 弹窗提示
-            pyautogui.alert('🎉恭喜任务执行完毕🎉\n单击确定退出!')
-        else:
-            pyautogui.alert('输入错误❗❗❗')
+            pyautogui.alert(text='🎉恭喜任务执行完毕🎉', title='CocoPyRPA--提示', button='退出')
+
 
     else:
         # 弹窗警告❌
-        pyautogui.alert('❌数据检查失败❌\n单击确定退出!')
+        pyautogui.alert(text='\n\n❌数据检查失败❌', title='CocoPyRPA--退出', button='退出')
