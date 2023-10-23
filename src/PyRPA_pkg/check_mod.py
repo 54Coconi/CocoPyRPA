@@ -31,19 +31,19 @@ import PyRPA_pkg.utils_mod as um
 __name__ = '指令功能检查模块'
 
 
-def __mouse_move_range_check(x, y, check_cmd):
+def __mouse_move_range_check(x, y):
     """
     鼠标（相对或绝对）移动的坐标范围检查
     :param x: x坐标
     :param y: y坐标
-    :param check_cmd: 指令检查参数
     :return: check_cmd -- 取反
     """
+    xy_check = True
     width = pyautogui.size().width
     height = pyautogui.size().height
     if abs(x) > width or abs(y) > height:
-        check_cmd = not check_cmd
-    return check_cmd
+        xy_check = False
+    return xy_check
 
 
 def data_check(sheetName):
@@ -106,14 +106,15 @@ def data_check(sheetName):
             isRestr = um.MyRegexMatch('\(-?\d+|-?\d+\)', cmdValue.value)
             if isRestr is False:
                 print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
+                check_cmd = False
             else:
                 # 将str字符串转为int整型（防止有小数点'.'先转为float浮点型再转int）
                 xy_list = cmdValue.value.split('|')
                 x = int(float(xy_list[0].split('(')[1]))
                 y = int(float(xy_list[1].split(')')[0]))
-                check_cmd = __mouse_move_range_check(x, y, check_cmd)
-                if not check_cmd:
+                if not __mouse_move_range_check(x, y):
                     print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
+                    check_cmd = False
 
         # 鼠标移动到绝对坐标事件，形式必须为形如'(x,y)'的字符串且x,y取值在屏幕分辨率范围内
         if cmdType.value == '鼠标定点移动':
@@ -121,13 +122,14 @@ def data_check(sheetName):
             isRestr = um.MyRegexMatch('\(-?\d+,-?\d+\)', cmdValue.value)
             if isRestr is False:
                 print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
+                check_cmd = False
             else:
                 xy_list = cmdValue.value.split(',')
                 x = int(float(xy_list[0].split('(')[1]))
                 y = int(float(xy_list[1].split(')')[0]))
-                check_cmd = __mouse_move_range_check(x, y, check_cmd)
-                if not check_cmd:
+                if not __mouse_move_range_check(x, y):
                     print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
+                    check_cmd = False
 
         # 【第4列，操作指令是否执行（只能为空或者数字0）
         isRun_cmd = sheetName.row(i)[3]

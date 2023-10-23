@@ -1,3 +1,6 @@
+"""
+主执行程序
+"""
 import tkinter.simpledialog as simpledialog
 
 import pyautogui
@@ -72,6 +75,7 @@ if __name__ == '__main__':
     # 数据检查
     checkCmd = cm.data_check(sheet1)
     if checkCmd:
+        pyautogui.alert('数据检查成功\n单击确定继续')
         key = input('请选择功能: \n\t输入1只做一次\n'
                     '\t输入2循环n次 \n\t  ')
         if key == '1':
