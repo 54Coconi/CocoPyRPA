@@ -1,4 +1,4 @@
-# CocoPyRPA--基于 PyAutoGUI + OpenCV的桌面自动化python脚本
+# CocoPyRPA--基于 PyAutoGUI + OpenCV的桌面自动化python程序
 
 ## 1. 项目背景
 
