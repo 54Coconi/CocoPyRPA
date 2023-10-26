@@ -1,8 +1,7 @@
 """
 功能模块,包含各个功能函数
-+----------------------------------------------+
-|目前包括的功能(指令)，指令实现功能详见说明文档|
-+----------------------------------------------+
+目前包括的功能(指令)，指令实现功能详见说明文档
+
 【about mouse 鼠标类】
 1.<单击左键>
 2.<双击左键>
@@ -16,106 +15,19 @@
 8.<按键>
 9.<热键组合>
 10.<键盘输入TXT内容>
+
 【about control 控制类】
 11.<等待>
 """
+import os
+import sys
 import time
+from time import strftime
 
 import pyautogui
 import pyperclip
 
-""" 
-====================================
-# 1)指令<单击左键>
-if cmdType.value == '单击左键':
-    # 取图片名称
-    img = sheet1.row(i)[1].value
-    reTry = 1
-    if sheet1.row(i)[2].ctype == 2 and sheet1.row(i)[2].value != 0:
-        reTry = sheet1.row(i)[2].value
-    mouseClick(1, "left", img, reTry)
-    print("<单击左键>\t======>\t", img)
-
-# 2)指令<双击左键>
-elif cmdType.value == '双击左键':
-    # 取图片名称
-    img = sheet1.row(i)[1].value
-    # 取重试次数
-    reTry = 1
-    if sheet1.row(i)[2].ctype == 2 and sheet1.row(i)[2].value != 0:
-        reTry = sheet1.row(i)[2].value
-    mouseClick(2, "left", img, reTry)
-    print("<双击左键>\t======>\t", img)
-        
-# 3)指令<单击右键>
-elif cmdType.value == '单击右键':
-    # 取图片名称
-    img = sheet1.row(i)[1].value
-    # 取重试次数
-    reTry = 1
-    if sheet1.row(i)[2].ctype == 2 and sheet1.row(i)[2].value != 0:
-        reTry = sheet1.row(i)[2].value
-    mouseClick(1, "right", img, reTry)
-    print("<单击右键>\t======>\t", img)
-        
-# 4)指令<输入>
-elif cmdType.value == '输入':
-    # 取单元格中要输入的内容
-    inputValue = sheet1.row(i)[1].value
-    # 复制单元格内容
-    pyperclip.copy(inputValue)
-    # 粘贴内容
-    pyautogui.hotkey('ctrl', 'v') 
-    time.sleep(0.5)
-    print("剪贴板输入\t======>\t", inputValue)
-        
-# 5)指令<等待>
-elif cmdType.value == '等待':
-    # 取等待时间
-    waitTime = sheet1.row(i)[1].value
-    time.sleep(waitTime)
-    print("<等待>\t======>\t", waitTime, "秒")
-        
-# 6)指令<滚轮>
-elif cmdType.value == '滚轮':
-    # 取单元格中要移动的距离值
-    scroll = sheet1.row(i)[1].value
-    pyautogui.scroll(int(scroll))
-    print("滚轮滑动了\t======>\t", int(scroll), "距离")
-
-# 7)指令<鼠标相对移动>
-elif cmdType.value == '鼠标相对移动':
-    # 取单元格中形如 num1=num2 的字符串
-    str = sheet1.row(i)[1].value
-    # 分割字符串得到字符串'num1'(x坐标偏移量)和'num2'(y坐标偏移量)，并转为int型
-    x = int(float(str.split('=')[0]))  # '='左边的数为横坐标x偏移量（x>0,右移）
-    y = int(float(str.split("=")[1]))  # '='右边的数为纵坐标y偏移量（y>0,下移）
-    pyautogui.move(x,y)
-    print("<鼠标相对移动>\t======>\t",
-    "右移" if x > 0 else "左移" if x < 0 else "不移动", x,
-    "下移" if y > 0 else "上移" if y < 0 else "不移动", y)
-
-# 8)指令<按键>
-elif cmdType.value == '按键':
-    inputValue = sheet1.row(i)[1].value
-    if inputValue == "enter" :
-        pyautogui.press("enter")
-    time.sleep(0.5)
-    print("<按键>\t======>\t", inputValue)
-
-# 9)指令<键盘输入TXT内容>
-elif cmdType.value == '键盘输入TXT内容':
-    inputValue = sheet1.row(i)[1].value
-    # 读取文本文件的内容
-    filepath = inputValue  # 文件绝对路径
-    with open(filepath, 'r', encoding='UTF-8') as file:  # ‘r’只读文件
-            copy_input = file.readline()  # 逐行读取,结果是一个list
-    keyboard_input = copy_input
-    pyautogui.typewrite(keyboard_input, interval=0.025)  # 放在列表里，interval 指输入间隔秒
-    print("<键盘输入TXT内容>",keyboard_input)
-
-==========================================================================
-"""
+funLogStr = ''
 
 
 def mouseClick(clickTimes, lOrR, img, reTry):
@@ -126,6 +38,7 @@ def mouseClick(clickTimes, lOrR, img, reTry):
     :param img: 图片路径
     :param reTry: 重复次数
     """
+    filename = '{0}{1}[{2}].log'.format(os.path.abspath('..') + '/logs/', 'main', strftime('%Y-%m-%d'))
     if reTry == 1:
         while True:
             location = pyautogui.locateCenterOnScreen(img, confidence=0.9)
@@ -133,6 +46,7 @@ def mouseClick(clickTimes, lOrR, img, reTry):
                 pyautogui.click(location.x, location.y, clicks=clickTimes, interval=0.2, duration=0.2, button=lOrR)
                 break
             print('未找到匹配图片,0.1秒后重试')
+            sys.stdout = open(file=filename, mode='a', encoding='UTF-8')
             time.sleep(0.1)
     elif reTry == -1:
         while True:
@@ -146,7 +60,16 @@ def mouseClick(clickTimes, lOrR, img, reTry):
             location = pyautogui.locateCenterOnScreen(img, confidence=0.9)
             if location is not None:
                 pyautogui.click(location.x, location.y, clicks=clickTimes, interval=0.2, duration=0.2, button=lOrR)
-                print('点击第', i, '次')
+                mouseAction = ''
+                if lOrR == 'left' and clickTimes == 1:
+                    mouseAction = '<单击左键>'
+                elif lOrR == 'left' and clickTimes == 2:
+                    mouseAction = '<双击左键>'
+                elif lOrR == 'right' and clickTimes == 1:
+                    mouseAction = '<单击右键>'
+                sys.stdout = open(file=filename, mode='a', encoding='UTF-8')
+                print(mouseAction + '第', i, '次')
+                sys.stdout = open(file=filename, mode='a', encoding='UTF-8')
                 i += 1
             time.sleep(0.1)
 
@@ -177,10 +100,13 @@ class RPA_mouse:
             # 取重试次数
             reTry = sheetName.row(rowIndex)[2].value
         mouseClick(clickTimes, 'left', imgName, reTry)
+        global funLogStr
         if clickTimes == 1:
-            print('<单击左键>\t\t=============>\t', imgName)
+            # print('<单击左键>\t\t------------->\t', imgName)
+            funLogStr = '<单击左键>\t------------->\t' + imgName
         elif clickTimes == 2:
-            print('<双击左键>\t\t=============>\t', imgName)
+            funLogStr = '<双击左键>\t------------->\t' + imgName
+            # print('<双击左键>\t\t------------->\t', imgName)
 
     # 3.<单击右键>
     @staticmethod
@@ -200,7 +126,9 @@ class RPA_mouse:
             # 取重试次数
             reTry = sheetName.row(rowIndex)[2].value
         mouseClick(clickTimes, 'right', imgName, reTry)
-        print('<单击右键>\t\t=============>\t', imgName)
+        global funLogStr
+        funLogStr = '<单击右键>\t------------->\t' + imgName
+        # print('<单击右键>\t\t------------->\t', imgName)
 
     # 4.<滚轮>
     @staticmethod
@@ -213,10 +141,18 @@ class RPA_mouse:
         # 取单元格中要移动的距离值
         scroll = sheetName.row(rowIndex)[1].value
         pyautogui.scroll(int(scroll))
-        print('<滚轮>\t\t\t=============>\t',
-              '向下滑动了' if int(scroll) < 0 else
-              '向上滑动了' if int(scroll) > 0 else
-              '滑动了', abs(int(scroll)), '距离')
+        global funLogStr
+        if int(scroll) < 0:
+            funLogStr = '<滚轮>\t\t------------->\t向下滑动了' + str(abs(int(scroll))) + '距离'
+        elif int(scroll) > 0:
+            funLogStr = '<滚轮>\t\t------------->\t向上滑动了' + str(abs(int(scroll))) + '距离'
+        else:
+            funLogStr = '<滚轮>\t\t------------->\t未滑动'
+
+        # print('<滚轮>\t\t\t------------->\t',
+        #       '向下滑动了' if int(scroll) < 0 else
+        #       '向上滑动了' if int(scroll) > 0 else
+        #       '滑动了', abs(int(scroll)), '距离')
 
     # 5.<鼠标定点移动>
     @staticmethod
@@ -230,7 +166,9 @@ class RPA_mouse:
         x = int(float(xy_list[0].split('(')[1]))
         y = int(float(xy_list[1].split(')')[0]))
         pyautogui.moveTo(x, y, 0.1)
-        print('<鼠标定点移动>\t=============>\t', 'x=', x, 'y=', y)
+        global funLogStr
+        funLogStr = '<鼠标定点移动>\t------------->\t' + 'x=' + str(x) + ', ' + 'y=' + str(y)
+        # print('<鼠标定点移动>\t------------->\t', 'x=', x, 'y=', y)
 
     # 6.<鼠标相对移动>
     @staticmethod
@@ -243,11 +181,26 @@ class RPA_mouse:
         xy_list = sheetName.row(rowIndex)[1].value.split('|')
         x = int(float(xy_list[0].split('(')[1]))
         y = int(float(xy_list[1].split(')')[0]))
-        pyautogui.move(x, y, 0.5)
-        print("<鼠标相对移动>\t=============>\t",
-              "x右移" if x > 0 else "x左移" if x < 0 else "x移动", abs(x),
-              '，', "y下移" if y > 0 else "y上移" if y < 0 else "y移动",
-              abs(y))
+        pyautogui.move(x, y, 0.4)  # 移动延时为0.4s
+        global funLogStr
+        if x > 0:
+            xMove = '<鼠标相对移动>\t------------->\t' + 'x右移' + str(abs(x)) + ', '
+        elif x < 0:
+            xMove = '<鼠标相对移动>\t------------->\t' + 'x左移' + str(abs(x)) + ', '
+        else:
+            xMove = '<鼠标相对移动>\t------------->\t' + 'x移动' + str(abs(x)) + ', '
+
+        if y > 0:
+            yMove = 'y下移' + str(abs(y))
+        elif y < 0:
+            yMove = 'y上移' + str(abs(y))
+        else:
+            yMove = 'y移动' + str(abs(y))
+        funLogStr = xMove + yMove
+        # print("<鼠标相对移动>\t------------->\t",
+        #       "x右移" if x > 0 else "x左移" if x < 0 else "x移动", abs(x),
+        #       '，', "y下移" if y > 0 else "y上移" if y < 0 else "y移动",
+        #       abs(y))
 
 
 class RPA_keyboard:
@@ -271,7 +224,9 @@ class RPA_keyboard:
         # 粘贴内容
         pyautogui.hotkey('ctrl', 'v')
         time.sleep(0.5)
-        print("剪贴板<输入>\t\t=============>\t", inputVal)
+        global funLogStr
+        funLogStr = '剪贴板<输入>\t\t------------->\t' + inputVal
+        # print("剪贴板<输入>\t\t------------->\t", inputVal)
 
     # 8.<按键>
     @staticmethod
@@ -282,7 +237,9 @@ class RPA_keyboard:
         """
         inputval = sheetName.row(rowIndex)[1].value
         pyautogui.press(inputval)
-        print('<按键>\t\t\t=============>\t', inputval)
+        global funLogStr
+        funLogStr = '<按键>\t\t\t------------->\t按下 ' + inputval
+        # print('<按键>\t\t\t------------->\t', inputval)
 
     # 9.<热键组合>
     @staticmethod
@@ -296,7 +253,9 @@ class RPA_keyboard:
         inputVal = sheetName.row(rowIndex)[1].value
         key_list = inputVal.split('+')
         pyautogui.hotkey(key_list)
-        print('<热键组合>\t\t=============>\t', key_list)
+        global funLogStr
+        funLogStr = '<热键组合>\t\t------------->\t' + str(key_list)
+        # print('<热键组合>\t\t------------->\t', key_list)
 
     # 10.<键盘输入TXT内容>
     @staticmethod
@@ -310,7 +269,9 @@ class RPA_keyboard:
         with open(filepath, 'r', encoding='UTF-8') as file:  # ‘r’只读文件
             message = file.read()
         pyautogui.typewrite(message, interval=0.025)  # interval 指输入间隔秒
-        print("<键盘输入TXT内容>\t=============>\t", message)
+        global funLogStr
+        funLogStr = '<键盘输入TXT内容>\t------------->\t内容：' + message
+        # print("<键盘输入TXT内容>\t------------->\t", message)
 
 
 # @控制类
@@ -329,5 +290,5 @@ class RPA_control:
         从表格单元格获取延时时长
         """
         wait_time = sheetName.row(rowIndex)[1].value
-        print('<等待>\t\t\t=============>\t', wait_time, '秒')
+        print('<等待>\t\t\t------------->\t', wait_time, '秒')
         time.sleep(wait_time)

@@ -29,6 +29,7 @@ import pyautogui
 import PyRPA_pkg.utils_mod as um
 
 __name__ = '指令功能检查模块'
+checkLogStr = ''
 
 
 def __mouse_move_range_check(x, y):
@@ -131,14 +132,13 @@ def data_check(sheetName):
                     print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
                     check_cmd = False
 
-        # 【第4列，操作指令是否执行（只能为空或者数字0）
+        # 【第4列，操作指令是否执行（只能为空或者数字0）===============================================
         isRun_cmd = sheetName.row(i)[3]
         # print(isRun_cmd.value)
         # print(isRun_cmd.ctype)
-        if isRun_cmd.ctype != 0:
-            if isRun_cmd.value != 0:
-                print('第', i + 1, '行,第4列数据有误,应为数字0或空,实际却为：', isRun_cmd.value)
-                check_cmd = False
+        if isRun_cmd.ctype != 0 and isRun_cmd.value != 0:
+            print('第', i + 1, '行,第4列数据有误,应为数字0或空,实际却为：', isRun_cmd.value)
+            check_cmd = False
 
         i += 1
     return check_cmd
