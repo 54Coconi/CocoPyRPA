@@ -11,15 +11,6 @@ import PyRPA_pkg.functions_mod as fm
 import ver_desc
 
 
-# tk = Tk()
-# tk.title("任务执行目录")
-# tk.geometry("330x180")  # 设置对话框的宽度和高度
-# res = simpledialog.askstring('任务执行目录', prompt='请输入任务目录的绝对路径', initialvalue='任务目录绝对路径')
-# if res is not None:
-#     print()
-#     print(res)
-# tk.mainloop()
-
 def mainWork(sheetName):
     """
     主执行方法
@@ -78,7 +69,7 @@ def mainWork(sheetName):
 if __name__ == '__main__':
     # 文件名
     filename1 = 'D:/桌面自动化python程序/PyRPA桌面自动化程序/execute/test/example/PyRPA_v2.0.0指令测试.xls'
-    filename = pyautogui.prompt(text='请输入表格的绝对路径', title='CocoPyRPA--表格路径',
+    filename = pyautogui.prompt(text='请输入[任务表格]的绝对路径', title='CocoPyRPA--表格路径',
                                 default='形如 D:/aa/bb.xls')
     if filename is None:
         print('<<=============任务被取消=============>>')
