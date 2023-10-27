@@ -111,6 +111,7 @@ if __name__ == '__main__':
         w = xlrd.open_workbook(filename)
     except OSError as e:
         my_logg.error('输入的路径错误或不存在\n' + str(traceback.format_exc()) + '\n')
+        pyautogui.alert(text='\n\n路径错误！', title='CocoPyRPA--警告', button='退出')
     # 打开文件
     wb = xlrd.open_workbook(filename)
     # 通过索引获取表格sheet页

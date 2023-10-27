@@ -290,5 +290,7 @@ class RPA_control:
         从表格单元格获取延时时长
         """
         wait_time = sheetName.row(rowIndex)[1].value
-        print('<等待>\t\t\t------------->\t', wait_time, '秒')
+        global funLogStr
+        funLogStr = '<等待>\t\t\t------------->\t' + str(wait_time) + '秒'
+        # print('<等待>\t\t\t------------->\t', wait_time, '秒')
         time.sleep(wait_time)

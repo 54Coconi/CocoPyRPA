@@ -23,26 +23,69 @@
       |--模板_v1.0.0指令测试.xls
       |--模板_v1.1.0.py
       |--模板_v1.1.0指令测试.xls
-  |--PyRPA_pkg/
-      |--__pycache__/
-      |--__init__.py
-      |--check_mod.py
-      |--functions_mod.py
+  |--logs/    
+  |--src/   
+      |--PyRPA_pkg/
+          |--__pycache__/
+          |--__init__.py
+          |--check_mod.py
+          |--CocoPyRPAlogger.py
+          |--functions_mod.py
+          |--utils_mod.py
+      |--main.py              --> 主执行文件
+      |ver_desc.py
   |--test/
       |--example/
-      |--PyRPA_v2.0.0指令测试.xls
-      |--test1.png
-  |--main.py
-  |ver_desc.py
-  |README.md
+          |--PyRPA_v2.0.0指令测试.xls
+          |--test1.png
+  |--.gitignore
+  |--README.md
 
 ```
 
-提供详细的安装说明，包括所需的依赖项和如何安装它们。这可以是使用pip、conda、npm等包管理器或手动安装的方式。.0
+### 2.安装之前的准备
+
+> 1. 安装python3.4以上版本，并配置好系统环境变量（目前有装3.9遇到坑的，我个人用的3.10.8），不会配的请自行百度
+>
+> 2. 安装依赖包
+>
+>    方法：在cmd中（win+R 输入cmd 回车）输入
+>
+>    pip install pyperclip 回车
+>
+>    pip install xlrd 回车
+>
+>    pip install pyautogui 回车
+>
+>    pip install opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple 回车
+>
+>    pip install pillow 回车
+>
+>    这几步如果哪步没成功，请自行百度 如 pip install opencv-python失败
+>
+>    （我个人强烈建议使用 PyCharm 自带的 python 库安装（[PyCharm官网](https://www.jetbrains.com/pycharm/download/?section=windows)），如下图所示）
+>
+>    ![PyCharm.png](https://s2.loli.net/2023/10/27/GafiOCLH4X2rtR7.png)
+>
+>    3.
 
 ## 3. 使用示例：
 
-> 参考：
+> 1. 使用方法：把每一步要操作的图标、区域截图保存至一个文件夹中，**绝对路径不能含有中文**字符（例如：*D:/任务图片/xxx.png* 是不合格的），**图片必须为png格式**（注意如果同屏有多个相同图标，程序默认找到最左上的一个，因此怎么截图，截多大的区域很重要，比如输入框只截中间空白部分肯定是不行的，宗旨就是“唯一”）。
+>
+> 2. 在与任务图片相同目录文件夹下建一个以` .xls`为后缀名的 Excel 表格（如果不是此格式会出问题），在表格里的第一行是命令的类型、内容等等，详见项目文件 `test/example/PyRPA_v2.x指令测试.xls`。表格里是所有你想要执行的功能指令
+>
+> 3. 如果你之前的准备都完成了，则双击` main.py`文件即可启动程序。程序启动后会弹窗提示输入任务表格的**绝对路径**,程序后台会自动将合法的路径解析并转义即输入 D:/aa/bb.xls 后会解析为 D://aa//bb.xls
+>
+>    ![RPA-start.png](https://s2.loli.net/2023/10/27/yNwO86nBaXYzdCQ.png)
+>
+>    
+>
+> 4. 
+>
+> 
+>
+> PyAutoGUI库的一些实例参考：
 >
 > 1. [Python自动操作GUI神器PyAutoGUI - 知乎](https://zhuanlan.zhihu.com/p/302592540)
 > 2. [pyautogui 官方 github 源码](https://github.com/asweigart/pyautogui)
@@ -55,12 +98,7 @@
 
 ## 5. 文档链接：
 
-如果有项目文档（如API文档），提供链接到文档的URL。
 
-## 6. 贡献指南：
-
-如果你欢迎其他人为项目做贡献，提供关于如何参与开发的信息，包括提交问题、创建拉取请求等的步骤。
 
 ## 7. 版本历史：
 
-提供关于项目版本的历史信息，包括更新内容、修复问题和新功能的描述。

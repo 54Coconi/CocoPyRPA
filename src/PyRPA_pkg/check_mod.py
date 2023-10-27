@@ -56,7 +56,9 @@ def data_check(sheetName):
     check_cmd = True
     # 行数检查
     if sheetName.nrows < 2:
-        print('表格没有指令数据！')
+        global checkLogStr
+        checkLogStr = '表格没有指令数据！'
+        # print('表格没有指令数据！')
         check_cmd = False
         return check_cmd
     # 每行数据检查（i表示行数）
@@ -69,7 +71,8 @@ def data_check(sheetName):
                 and cmdType.value != '输入' and cmdType.value != '等待' and cmdType.value != '滚轮'
                 and cmdType.value != '鼠标相对移动' and cmdType.value != '按键' and cmdType.value != '键盘输入TXT内容'
                 and cmdType.value != '鼠标定点移动' and cmdType.value != '热键组合'):
-            print('第', i + 1, '行,第1列数据有误,可能输入了错误的或不能识别的操作指令！\n')
+            checkLogStr = '第' + str(i + 1) + '行,第1列数据有误,可能输入了错误的或不能识别的操作指令！'
+            # print('第', i + 1, '行,第1列数据有误,可能输入了错误的或不能识别的操作指令！\n')
             check_cmd = False
 
         # 【第2列 操作指令内容检查】==============================================================
@@ -80,24 +83,28 @@ def data_check(sheetName):
                 cmdType.value == '双击左键' or
                 cmdType.value == '单击右键'):
             if cmdValue.ctype != 1:
-                print('第', i + 1, '行,第2列数据有误,应为字符串类型,实际却为：', cmdValue.value)
+                checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,应为字符串类型,实际却为：' + str(cmdValue.value)
+                # print('第', i + 1, '行,第2列数据有误,应为字符串类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
         # 输入类型，内容不能为空
         if cmdType.value == '输入':
             if cmdValue.ctype == 0:
-                print('第', i + 1, '行,第2列数据有误,输入内容不能为空！')
+                checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,输入内容不能为空！'
+                # print('第', i + 1, '行,第2列数据有误,输入内容不能为空！')
                 check_cmd = False
 
         # 等待类型，内容必须为数字
         if cmdType.value == '等待':
             if cmdValue.ctype != 2:
-                print('第', i + 1, '行,第2列数据有误,应为数字类型,实际却为：', cmdValue.value)
+                checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,应为数字类型,实际却为：' + str(cmdValue.value)
+                # print('第', i + 1, '行,第2列数据有误,应为数字类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
         # 滚轮事件，内容必须为数字
         if cmdType.value == '滚轮':
             if cmdValue.ctype != 2:
+                checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,应为数字类型,实际却为：' + str(cmdValue.value)
                 print('第', i + 1, '行,第2列数据有误,应为数字类型,实际却为：', cmdValue.value)
                 check_cmd = False
 
@@ -106,7 +113,8 @@ def data_check(sheetName):
             # 检查格式
             isRestr = um.MyRegexMatch('\(-?\d+|-?\d+\)', cmdValue.value)
             if isRestr is False:
-                print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
+                checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,输入的坐标格式不对，应为：(x|y)'
+                # print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
                 check_cmd = False
             else:
                 # 将str字符串转为int整型（防止有小数点'.'先转为float浮点型再转int）
@@ -114,7 +122,9 @@ def data_check(sheetName):
                 x = int(float(xy_list[0].split('(')[1]))
                 y = int(float(xy_list[1].split(')')[0]))
                 if not __mouse_move_range_check(x, y):
-                    print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
+                    checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率=' + str(
+                        pyautogui.size())
+                    # print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
                     check_cmd = False
 
         # 鼠标移动到绝对坐标事件，形式必须为形如'(x,y)'的字符串且x,y取值在屏幕分辨率范围内
@@ -122,6 +132,7 @@ def data_check(sheetName):
             # 检查格式
             isRestr = um.MyRegexMatch('\(-?\d+,-?\d+\)', cmdValue.value)
             if isRestr is False:
+                checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,输入的坐标格式不对，应为：(x,y)'
                 print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
                 check_cmd = False
             else:
@@ -129,7 +140,9 @@ def data_check(sheetName):
                 x = int(float(xy_list[0].split('(')[1]))
                 y = int(float(xy_list[1].split(')')[0]))
                 if not __mouse_move_range_check(x, y):
-                    print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
+                    checkLogStr = '第' + str(i + 1) + '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率=' + str(
+                        pyautogui.size())
+                    # print('第', i + 1, '行,第2列数据有误,鼠标移动距离超出屏幕最大分辨率！')
                     check_cmd = False
 
         # 【第4列，操作指令是否执行（只能为空或者数字0）===============================================
@@ -137,7 +150,8 @@ def data_check(sheetName):
         # print(isRun_cmd.value)
         # print(isRun_cmd.ctype)
         if isRun_cmd.ctype != 0 and isRun_cmd.value != 0:
-            print('第', i + 1, '行,第4列数据有误,应为数字0或空,实际却为：', isRun_cmd.value)
+            checkLogStr = '第' + str(i + 1) + '行,第4列数据有误,应为数字0或空,实际却为：' + str(isRun_cmd.value)
+            # print('第', i + 1, '行,第4列数据有误,应为数字0或空,实际却为：', isRun_cmd.value)
             check_cmd = False
 
         i += 1
