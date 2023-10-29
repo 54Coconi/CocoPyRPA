@@ -97,7 +97,7 @@ if __name__ == '__main__':
     # filename1 = 'D:/桌面自动化python程序/PyRPA桌面自动化程序/execute/test/example/PyRPA_v2.0.0指令测试.xls'
 
     filename = pyautogui.prompt(text='请输入[任务表格]的绝对路径', title='CocoPyRPA--表格路径',
-                                default='形如 D:/aa/bb.xls')
+                                default='绝对路径')
 
     if filename is None:
         my_logg.info('<<**********************$ 任务被取消 $**********************>>\n')
