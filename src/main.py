@@ -14,16 +14,12 @@ import PyRPA_pkg.check_mod as cm
 import PyRPA_pkg.functions_mod as fm
 import ver_desc
 
-filename = os.path.basename(__file__).split('.')[0]
+fileNameOfWhoUse = os.path.basename(__file__).split('.')[0]
 logpath = os.path.abspath('..') + '/logs/'
 
-my_logg = mylog.MyLog(fileNameOfWhoUse=filename, logOutPath=logpath).logger
-my_logg.info('<<=======================任务开始=======================>>')
+my_logg = mylog.MyLog(fileNameOfWhoUse=fileNameOfWhoUse, logOutPath=logpath).logger
+my_logg.info('<<=======================$ 任务开始 $=======================>>')
 my_logg.info("任务开始执行时间 {}\n".format(datetime.datetime.now()))
-
-
-# my_logg.debug('看看debug')
-# my_logg.error('This is a error' + '\n')
 
 
 def mainWork(sheetName):
@@ -104,7 +100,7 @@ if __name__ == '__main__':
                                 default='形如 D:/aa/bb.xls')
 
     if filename is None:
-        my_logg.info('<<**********************任务被取消**********************>>\n')
+        my_logg.info('<<**********************$ 任务被取消 $**********************>>\n')
         sys.exit(0)  # 程序终止
 
     try:
@@ -126,7 +122,7 @@ if __name__ == '__main__':
         if key == '1':
             # 循环拿出每一行指令
             mainWork(sheet1)
-            my_logg.info('<<======================任务执行成功======================>>\n')
+            my_logg.info('<<======================$ 任务执行成功 $======================>>\n')
             # 弹窗提示
             pyautogui.alert('🎉恭喜任务执行完毕🎉\n单击确定退出!')
         elif key == '2':
@@ -138,7 +134,7 @@ if __name__ == '__main__':
                     my_logg.info("等待0.1秒后再次执行")
                 fm.time.sleep(0.1)
                 n -= 1
-            my_logg.info('<<======================任务执行成功======================>>\n')
+            my_logg.info('<<======================$ 任务执行成功 $======================>>\n')
             # 弹窗提示
             pyautogui.alert(text='🎉恭喜任务执行完毕🎉', title='CocoPyRPA--提示', button='退出')
     else:

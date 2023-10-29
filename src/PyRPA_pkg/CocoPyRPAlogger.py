@@ -8,7 +8,7 @@ from time import strftime
 # 输出日志路径
 # PATH = os.path.abspath('.') + '/logs/'
 # 设置日志格式，和时间格式
-FMT = '%(asctime)s %(filename)s [line:%(lineno)d] \t%(levelname)s:\t%(message)s'
+FMT = '%(asctime)s %(filename)s [line:%(lineno)d]  %(levelname)s:  %(message)s'
 DATEFMT = '%Y-%m-%d %H:%M:%S'
 
 
