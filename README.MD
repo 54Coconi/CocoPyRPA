@@ -75,19 +75,18 @@
 >
 > 2. 在与任务图片相同目录文件夹下建一个以` .xls`为后缀名的 Excel 表格（如果不是此格式会出问题），在表格里的第一行是命令的类型、内容等等，详见项目文件 `test/example/PyRPA_v2.x指令测试.xls`。表格里是所有你想要执行的功能指令
 >
-> 3. 如果你之前的准备都完成了，则双击` main.py`文件即可启动程序。程序启动后会弹窗提示输入任务表格的**绝对路径**,程序后台会自动将合法的路径解析并转义即输入 D:/aa/bb.xls 后会解析为 D://aa//bb.xls
->
->    ![RPA-start.png](https://s2.loli.net/2023/10/27/yNwO86nBaXYzdCQ.png)
->
->    
->
-> 4. 
+> 3. 如果你之前的准备都完成了，则双击` main.py`文件即可启动程序。程序启动后会弹窗提示输入任务表格的**绝对路径**
 >
 > 
+>![PyRPA-start.png](../documents/2023-10-30_005923.png)
+>    
+>4. 
+> 
 >
-> PyAutoGUI库的一些实例参考：
->
-> 1. [Python自动操作GUI神器PyAutoGUI - 知乎](https://zhuanlan.zhihu.com/p/302592540)
+> 
+>PyAutoGUI库的一些实例参考：
+> 
+>1. [Python自动操作GUI神器PyAutoGUI - 知乎](https://zhuanlan.zhihu.com/p/302592540)
 > 2. [pyautogui 官方 github 源码](https://github.com/asweigart/pyautogui)
 > 3. [pyautogui 官方 github 中文文档](https://github.com/asweigart/pyautogui/blob/master/docs/simplified-chinese.ipynb)
 > 4. [pyautogui 官网说明文档（英文）](https://pyautogui.readthedocs.io/en/latest/index.html)
