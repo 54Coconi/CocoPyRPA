@@ -94,7 +94,6 @@ def mainWork(sheetName):
 
 if __name__ == '__main__':
     # 文件名
-    # filename1 = 'D:/桌面自动化python程序/PyRPA桌面自动化程序/execute/test/example/PyRPA_v2.0.0指令测试.xls'
 
     filename = pyautogui.prompt(text='请输入[任务表格]的绝对路径', title='CocoPyRPA--表格路径',
                                 default='绝对路径')
