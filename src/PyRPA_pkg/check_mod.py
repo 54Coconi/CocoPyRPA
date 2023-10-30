@@ -142,13 +142,13 @@ def data_check(sheetName):
         # 鼠标移动到绝对坐标事件，形式必须为形如'(x,y)'的字符串且x,y取值在屏幕分辨率范围内
         if cmdType.value == '鼠标定点移动':
             # 检查格式
-            isRestr = um.MyRegexMatch('\(-?\d+,-?\d+\)', cmdValue.value)
+            isRestr = um.MyRegexMatch('\(-?\d+\*-?\d+\)', cmdValue.value)
             if isRestr is False:
-                my_checkLog.error('第' + str(i + 1) + '行,第2列数据有误,输入的坐标格式不对，应为：(x,y)')
+                my_checkLog.error('第' + str(i + 1) + '行,第2列数据有误,输入的坐标格式不对，应为：(x*y)')
                 # print('第', i + 1, '行,第2列数据有误,输入的坐标格式不对，请检查表格！')
                 check_cmd = False
             else:
-                xy_list = cmdValue.value.split(',')
+                xy_list = cmdValue.value.split('*')
                 x = int(float(xy_list[0].split('(')[1]))
                 y = int(float(xy_list[1].split(')')[0]))
                 if not __mouse_move_range_check(x, y):

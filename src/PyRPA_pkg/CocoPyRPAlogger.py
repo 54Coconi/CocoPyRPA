@@ -2,6 +2,7 @@
 CocoPyRPA 的自定义日志模块
 """
 import logging
+import os.path
 import sys
 from time import strftime
 
@@ -26,6 +27,10 @@ class MyLog(object):
         self.logger = logging.getLogger()
         # 初始化自定义日志格式
         self.formatter = logging.Formatter(fmt=FMT, datefmt=DATEFMT)
+        # 创建logs文件夹
+        if not os.path.exists(logOutPath):
+            os.mkdir(logOutPath)
+
         # 初始化自定义日志文件名
         self.log_filename = '{0}{1}[{2}].log'.format(logOutPath, fileNameOfWhoUse, strftime('%Y-%m-%d'))
 

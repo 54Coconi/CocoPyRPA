@@ -106,7 +106,7 @@ if __name__ == '__main__':
         w = xlrd.open_workbook(filename)
     except OSError as e:
         my_logg.error('输入的路径错误或不存在\n' + str(traceback.format_exc()) + '\n')
-        pyautogui.alert(text='\n\n路径错误！', title='CocoPyRPA--警告', button='退出')
+        pyautogui.alert(text='\n\n表格路径错误！', title='CocoPyRPA--警告', button='退出')
     # 打开文件
     wb = xlrd.open_workbook(filename)
     # 通过索引获取表格sheet页
@@ -115,6 +115,7 @@ if __name__ == '__main__':
     # 数据检查
     checkCmd = cm.data_check(sheet1)
     if checkCmd:
+        my_logg.info('数据检查成功')
         pyautogui.alert(text='\n\n数据检查成功', title='CocoPyRPA--提示', button='继续')
         key = pyautogui.confirm(text='\n\n请选择功能:\n输入1只做一次,输入2循环n次', title='CocoPyRPA--功能选择',
                                 buttons=['1', '2'])

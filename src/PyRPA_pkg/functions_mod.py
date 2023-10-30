@@ -41,11 +41,17 @@ def mouseClick(clickTimes, lOrR, img, reTry):
     filename = '{0}{1}[{2}].log'.format(os.path.abspath('..') + '/logs/', 'main', strftime('%Y-%m-%d'))
     if reTry == 1:
         while True:
+            try:
+                pyautogui.locateCenterOnScreen(img, confidence=0.9)
+            except OSError as e:
+                sys.stdout = open(file=filename, mode='a', encoding='UTF-8')
+                print('ERROR - 图片路径错误或不存在')
+                pyautogui.alert(text='\n\n图片路径错误！', title='CocoPyRPA--警告', button='退出')
             location = pyautogui.locateCenterOnScreen(img, confidence=0.9)
             if location is not None:
                 pyautogui.click(location.x, location.y, clicks=clickTimes, interval=0.2, duration=0.2, button=lOrR)
                 break
-            print('未找到匹配图片,0.1秒后重试')
+            print('INFO - 未找到匹配图片,0.1秒后重试')
             sys.stdout = open(file=filename, mode='a', encoding='UTF-8')
             time.sleep(0.1)
     elif reTry == -1:
