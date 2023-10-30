@@ -78,7 +78,7 @@
 > 3. 如果你之前的准备都完成了，则双击` main.py`文件即可启动程序。程序启动后会弹窗提示输入任务表格的**绝对路径**
 >
 > 
->![PyRPA-start.png](https://raw.githubusercontent.com/54Coconi/picture-repo/main/img/PyRPA-start.png)
+>![PyRPA-start.png](../documents/2023-10-30_005923.png)
 >    
 >4. 
 > 
@@ -93,7 +93,7 @@
 
 ## 4. 配置选项：
 
-
+如果你的项目具有可配置的选项，解释如何配置它们。包括配置文件示例或环境变量设置。
 
 ## 5. 文档链接：
 
